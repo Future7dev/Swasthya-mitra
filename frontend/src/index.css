@@ -315,3 +315,45 @@ html[data-theme='dark'] .table-hover tbody tr:hover {
   background: transparent;
 }
 
+/* Dashboard row */
+.dashboard-row {
+  display: flex;
+  justify-content: center;
+  transition: all 0.6s ease;
+}
+
+/* When prediction happens */
+.dashboard-row.shifted {
+  justify-content: flex-start;
+}
+
+/* Search column */
+.search-col {
+  transition: transform 0.6s ease;
+}
+
+/* Initial centered position */
+.search-col.center {
+  transform: translateX(0);
+}
+
+/* Slide left */
+.search-col.left {
+  transform: translateX(0); /* RESET */
+  margin-left: 2rem;        /* align nicely */
+}
+
+/* Result column animation */
+.result-col {
+  opacity: 0;
+  transform: translateX(40px);
+  animation: resultSlideIn 0.6s ease forwards;
+}
+
+@keyframes resultSlideIn {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
