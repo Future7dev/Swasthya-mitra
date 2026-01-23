@@ -13,9 +13,13 @@ function DashboardPage({user}) {
   const [responses,setResponses]=useState([]);
 
   const [selectedSymptoms, setSelectedSymptoms] = useState([]);
-
+  const[about,setAbout]=useState("");
+  const[precaution,setPrecaution]=useState([]);
   const [loading, setLoading] = useState(false);
   const [prediction, setPrediction] = useState("");
+  const [showResult, setShowResult] = useState(false);
+  const [activeTab, setActiveTab] = useState("disease");
+  const [predicted, setPredicted] = useState(false);
 
 
 
@@ -237,39 +241,53 @@ useEffect(() => {
   };
 
   const handlePredict = async () => {
-    if (selectedSymptoms.length === 0) {
-      setPrediction("Please select at least one symptom.");
-      return;
-    }
+  if (selectedSymptoms.length === 0) {
+    setPrediction("Please select at least one symptom.");
+    return;
+  }
 
-    setLoading(true);
-    setPrediction("");
+  setLoading(true);
+  setShowResult(false); // reset animation
+  setPrediction("");
 
-    try {
-      const res = await fetch("http://localhost:8080/api/predict", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          symptoms: selectedSymptoms
-        })
-      });
+  try {
+    const res = await fetch("http://127.0.0.1:5000/predict", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ symptoms: selectedSymptoms })
+    });
 
-      const data = await res.json();
-      setPrediction(data.disease || "No prediction returned.");
-    } catch (e) {
-      setPrediction("Server error. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
+    const data = await res.json();
+    setPrediction(data.disease || "No prediction returned.");
+    setAbout(data.about);
+    setPrecaution(data.precautions);
+    setActiveTab("disease");
+
+    // small delay for smooth animation
+    setTimeout(() => {
+    setShowResult(true);
+    setPredicted(true); // 🔥 triggers layout shift
+    }, 200);
+
+  } catch (e) {
+    setPrediction("Server error. Please try again.");
+  } finally {
+    setLoading(false);
+  }
+  setSelectedSymptoms([]);
+};
+
 
   return (
     <Container fluid className="py-5">
-      <Row className="justify-content-center">
+      <Row className={`justify-content-center dashboard-row ${predicted ? "shifted" : ""}`}>
 
-        <Col md={6}>
+
+       <Col
+          md={predicted ? 6 : 8}
+          className={`transition-col search-col ${predicted ? "left" : "center"}`}
+        >
+
           <Card className="shadow-sm border-0 p-4">
             <h2 className="mb-4 text-start">Symptom Checker</h2>
 
@@ -331,7 +349,7 @@ useEffect(() => {
                 onClick={handlePredict}
                 disabled={loading}
               >
-                {loading ? <Spinner size="sm" /> : "Predict"}
+                {loading ? "loading..." : "Predict"}
               </Button>
             </div>
 
@@ -339,17 +357,69 @@ useEffect(() => {
         </Col>
 
         {/* Results */}
-        <Col md={5}>
-          <Card className="shadow-sm border-0 p-4">
-            <h4 className="mb-3">Results</h4>
-            <div className="result-box p-3">
-              {loading && <p className="text-muted">Predicting...</p>}
-              {!loading && prediction && (
-                <p className="fw-bold text-success">{prediction}</p>
-              )}
-            </div>
-          </Card>
-        </Col>
+        {predicted && (
+          <Col md={5} className="transition-col result-col">
+
+  <Card className={`shadow-sm border-0 p-4 result-card ${showResult ? "show" : ""}`}>
+    <h4 className="mb-3">Results</h4>
+
+    {/* Nav Tabs */}
+    {!loading && prediction && (
+      <ul className="nav nav-pills mb-3">
+        <li className="nav-item">
+          <button
+            className={`nav-link ${activeTab === "disease" ? "active" : ""}`}
+            onClick={() => setActiveTab("disease")}
+          >
+            Disease
+          </button>
+        </li>
+        <li className="nav-item">
+          <button
+            className={`nav-link ${activeTab === "about" ? "active" : ""}`}
+            onClick={() => setActiveTab("about")}
+          >
+            About
+          </button>
+        </li>
+        <li className="nav-item">
+          <button
+            className={`nav-link ${activeTab === "precaution" ? "active" : ""}`}
+            onClick={() => setActiveTab("precaution")}
+          >
+            Precautions
+          </button>
+        </li>
+      </ul>
+    )}
+
+    {/* Content */}
+    <div className="result-box p-3">
+      {loading && <p className="text-muted">Predicting...</p>}
+
+      {!loading && showResult && (
+        <>
+          {activeTab === "disease" && (
+            <p className="fw-bold text-success fade-in">{prediction}</p>
+          )}
+
+          {activeTab === "about" && (
+            <p className="fade-in">{about}</p>
+          )}
+
+          {activeTab === "precaution" && (
+            <ul className="fade-in">
+              {precaution?.map((p, i) => (
+                <li key={i}>{p}</li>
+              ))}
+            </ul>
+          )}
+        </>
+      )}
+    </div>
+  </Card>
+</Col>)}
+
 
       </Row>
     </Container>
