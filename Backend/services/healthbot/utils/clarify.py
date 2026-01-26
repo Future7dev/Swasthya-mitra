@@ -1,17 +1,20 @@
-def build_clarification(nlp_data):
-    if not nlp_data.get("symptoms"):
+def build_clarification(nlp_data, state):
+    if not state.get("symptoms"):
+        state["last_question"] = "symptoms"
         return {
             "type": "clarification",
-            "message": "Can you describe your symptoms in a bit more detail?"
+            "message": "Can you describe your symptoms in more detail?"
         }
 
-    if nlp_data.get("intent") == "general_question":
+    if not state.get("duration"):
+        state["last_question"] = "duration"
         return {
             "type": "clarification",
-            "message": "Are you asking for general information, or are you experiencing symptoms?"
+            "message": "How long have you been experiencing these symptoms?"
         }
 
     return {
         "type": "clarification",
-        "message": "Could you provide a little more information so I can help you better?"
+        "message": "Could you provide a bit more information?"
     }
+
