@@ -19,9 +19,16 @@ from utils.context import merge_context
 from utils.followup import generate_followup, get_session_summary, check_previous_context
 from utils.llm import enhance_response, is_llm_available, get_available_models
 from utils.database import init_db
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(title="HealthBot API")
-
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # or ["http://localhost:5173"]
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 init_db()
 
 with open("rules/symptoms.json") as f:
