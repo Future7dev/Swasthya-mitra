@@ -44,6 +44,7 @@ function AppNavbar({ user, handleLogout,roomId,handleConnectDoctor }) {
         <Nav.Link as={Link} to="/health-tips" className="fw-bold">Health Tips</Nav.Link>
         <Nav.Link as={Link} to="/reports" className="fw-bold">My Reports</Nav.Link>
         <Nav.Link as={Link} to="/map" className="fw-bold">Nearest Hospitals</Nav.Link>
+        <Nav.Link as={Link} to="/healthbot" className="fw-bold">HealthBot</Nav.Link>
        {isUser && <Nav.Link onClick={handleConnectDoctor} className="fw-bold">Connect to Doctor</Nav.Link>}
        {isDoc && <Nav.Link as={Link} to="/doctorspage" className="fw-bold">Meetings</Nav.Link>}
       </Nav>

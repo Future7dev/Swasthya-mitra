@@ -5,13 +5,14 @@ import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import DashboardPage from './pages/DashboardPage';
-import HealthTipsPage from './pages/HealthTipsPage'; // <-- Import
-import ReportsPage from './pages/ReportsPage';       // <-- Import
-import ProfilePage from './pages/ProfilePage';       // <-- Import
+import HealthTipsPage from './pages/HealthTipsPage';
+import ReportsPage from './pages/ReportsPage';
+import ProfilePage from './pages/ProfilePage';
 import HospitalMap from './components/HospitalMap';
 import VideoConference from './components/VideoConference';
 import { Nav } from 'react-bootstrap';
 import DoctorsPage from './components/DoctorsPage';
+import HealthBotPage from './pages/HealthBotPage';
 
 function App() {
   const [auth,setAuth]=useState(localStorage.getItem("token"));
@@ -142,6 +143,7 @@ function App() {
         <Route path="/settings" element={(auth && user)?(<ProfilePage user={user}/>):(<Navigate to={"/login"}/>)} /> 
         <Route path="/map" element={(auth && user)?(<HospitalMap/>):(<Navigate to={"/login"}/>)} /> 
         <Route path="/doctorspage" element={(auth && user)?(<DoctorsPage/>):(<Navigate to={"/login"}/>)} />
+        <Route path="/healthbot" element={(auth && user)?(<HealthBotPage user={user} />):(<Navigate to={"/login"}/>)} />
         
       </Route>
       <Route path="/room/:roomId" element={( auth && user)?(<VideoConference user={user} handleLeave={handleLeave}/>):(<Navigate to={"/login"}/>)} /> 
