@@ -34,3 +34,4 @@ build/
 
 ### Python env ###
 __pycache__/
+.env
