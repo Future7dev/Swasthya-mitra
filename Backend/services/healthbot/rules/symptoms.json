@@ -1,20 +1,597 @@
 {
-	"fever": {
-		"aliases": ["high temperature", "hot body", "temperature"],
-		"severity": "medium",
-		"advice": "Stay hydrated and monitor temperature.",
-		"doctor_after_days": 3
-	},
-	"headache": {
-		"aliases": ["head pain", "pain in head"],
-		"severity": "low",
-		"advice": "Rest, reduce screen time, and hydrate.",
-		"doctor_after_days": 2
-	},
-	"cough": {
-		"aliases": [],
-		"severity": "low",
-		"advice": "Warm fluids and rest may help.",
-		"doctor_after_days": 7
-	}
+  "fever": {
+    "aliases": ["high temperature", "hot body", "feverish", "elevated temperature", "body heat", "febrile", "hot", "burning up", "feeling hot"],
+    "severity": "medium",
+    "advice": "Stay hydrated, monitor your temperature, and rest. Take fever-reducing medication if needed.",
+    "doctor_after_days": 3,
+    "possible_causes": ["Infection", "Flu", "COVID-19", "Inflammation"]
+  },
+  "headache": {
+    "aliases": ["head pain", "pain in head", "migraine", "head ache", "pounding head", "throbbing head", "hurt head", "my head"],
+    "severity": "low",
+    "advice": "Rest in a quiet, dark room. Reduce screen time, stay hydrated, and consider over-the-counter pain relief.",
+    "doctor_after_days": 3,
+    "possible_causes": ["Tension", "Migraine", "Dehydration", "Stress"]
+  },
+  "cough": {
+    "aliases": ["coughing", "dry cough", "wet cough", "productive cough", "persistent cough"],
+    "severity": "low",
+    "advice": "Stay hydrated, use honey for soothing, avoid irritants. Consult a doctor if it persists beyond 2 weeks.",
+    "doctor_after_days": 14,
+    "possible_causes": ["Cold", "Flu", "Allergies", "Asthma", "COVID-19"]
+  },
+  "sore throat": {
+    "aliases": ["throat pain", "painful swallowing", "scratchy throat", "pharyngitis", "swollen throat"],
+    "severity": "low",
+    "advice": "Gargle with warm salt water, drink warm fluids, rest your voice.",
+    "doctor_after_days": 5,
+    "possible_causes": ["Viral infection", "Strep throat", "Allergies", "Dry air"]
+  },
+  "runny nose": {
+    "aliases": ["nasal congestion", "stuffy nose", "blocked nose", "rhinitis", "mucus"],
+    "severity": "low",
+    "advice": "Use saline nasal spray, stay hydrated, use a humidifier.",
+    "doctor_after_days": 7,
+    "possible_causes": ["Cold", "Allergies", "Sinusitis"]
+  },
+  "fatigue": {
+    "aliases": ["tiredness", "exhaustion", "weakness", "lack of energy", "lethargy", "feeling tired"],
+    "severity": "medium",
+    "advice": "Ensure adequate sleep, maintain a balanced diet, and exercise moderately.",
+    "doctor_after_days": 7,
+    "possible_causes": ["Lack of sleep", "Stress", "Infection", "Anemia", "Depression"]
+  },
+  "body ache": {
+    "aliases": ["muscle pain", "muscle ache", "body pain", "myalgia", "aches", "pains all over"],
+    "severity": "medium",
+    "advice": "Rest, apply heat or cold packs, take over-the-counter pain relievers.",
+    "doctor_after_days": 5,
+    "possible_causes": ["Flu", "COVID-19", "Overexertion", "Fibromyalgia"]
+  },
+  "chills": {
+    "aliases": ["shivering", "cold sensation", "shaking", "rigors"],
+    "severity": "medium",
+    "advice": "Cover yourself with blankets, drink warm fluids, and monitor temperature.",
+    "doctor_after_days": 2,
+    "possible_causes": ["Infection", "Fever", "Hypothermia"]
+  },
+  "nausea": {
+    "aliases": ["feeling sick", "queasy", "sick to stomach", "upset stomach"],
+    "severity": "medium",
+    "advice": "Eat small, bland meals, stay hydrated, avoid strong odors.",
+    "doctor_after_days": 3,
+    "possible_causes": ["Food poisoning", "Migraine", "Pregnancy", "Gastroenteritis"]
+  },
+  "vomiting": {
+    "aliases": ["throwing up", "being sick", "emesis"],
+    "severity": "medium",
+    "advice": "Stay hydrated with small sips of water, avoid solid food until vomiting stops.",
+    "doctor_after_days": 2,
+    "possible_causes": ["Food poisoning", "Gastroenteritis", "Migraine", "Pregnancy"]
+  },
+  "diarrhea": {
+    "aliases": ["loose stools", "watery stool", "frequent bowel", "upset stomach"],
+    "severity": "medium",
+    "advice": "Stay hydrated, eat bland foods (BRAT diet), avoid dairy and fatty foods.",
+    "doctor_after_days": 3,
+    "possible_causes": ["Food poisoning", "Infection", "IBS", "Food intolerance"]
+  },
+  "abdominal pain": {
+    "aliases": ["stomach pain", "belly pain", "stomach ache", "tummy ache", "abdomen hurts", "stomach hurts", "my stomach", "tummy hurts", "belly hurts"],
+    "severity": "medium",
+    "advice": "Rest, avoid food initially, stay hydrated. Seek immediate care if severe.",
+    "doctor_after_days": 2,
+    "possible_causes": ["Indigestion", "Gas", "Appendicitis", "Food poisoning", "IBS"]
+  },
+  "chest pain": {
+    "aliases": ["chest discomfort", "tightness in chest", "pressure in chest", "heart pain"],
+    "severity": "high",
+    "advice": "Seek immediate medical attention. Could indicate heart-related emergency.",
+    "doctor_after_days": 0,
+    "possible_causes": ["Heart attack", "Angina", "GERD", "Anxiety", "Muscle strain"]
+  },
+  "shortness of breath": {
+    "aliases": ["difficulty breathing", "breathlessness", "can't breathe", "wheezing", "labored breathing"],
+    "severity": "high",
+    "advice": "Seek immediate medical attention, especially if sudden or severe.",
+    "doctor_after_days": 0,
+    "possible_causes": ["Asthma", "Heart failure", "Pulmonary embolism", "COVID-19", "Anxiety"]
+  },
+  "dizziness": {
+    "aliases": ["lightheaded", "vertigo", "spinning sensation", "feeling faint", "dizzy"],
+    "severity": "medium",
+    "advice": "Sit or lie down slowly, stay hydrated, avoid sudden movements.",
+    "doctor_after_days": 3,
+    "possible_causes": ["Low blood sugar", "Dehydration", "Inner ear problem", "Anemia"]
+  },
+  "rash": {
+    "aliases": ["skin rash", "hives", "skin irritation", "red spots", "itchy skin"],
+    "severity": "low",
+    "advice": "Avoid scratching, apply calamine lotion, use mild soap.",
+    "doctor_after_days": 5,
+    "possible_causes": ["Allergy", "Infection", "Eczema", "Heat rash"]
+  },
+  "itching": {
+    "aliases": ["pruritus", "scratchy", "irritated skin", "skin itch"],
+    "severity": "low",
+    "advice": "Apply moisturizer, avoid hot showers, use anti-itch creams.",
+    "doctor_after_days": 7,
+    "possible_causes": ["Allergy", "Dry skin", "Insect bites", "Eczema"]
+  },
+  "back pain": {
+    "aliases": ["backache", "lower back pain", "upper back pain", "spine pain", "back ache"],
+    "severity": "medium",
+    "advice": "Apply heat/cold, maintain good posture, gentle stretching.",
+    "doctor_after_days": 7,
+    "possible_causes": ["Muscle strain", "Poor posture", "Herniated disc", "Kidney stones"]
+  },
+  "joint pain": {
+    "aliases": ["arthralgia", "joint ache", "painful joints", "stiff joints"],
+    "severity": "medium",
+    "advice": "Rest affected joints, apply ice, take anti-inflammatory medication.",
+    "doctor_after_days": 7,
+    "possible_causes": ["Arthritis", "Injury", "Gout", "Infection"]
+  },
+  "swelling": {
+    "aliases": ["edema", "puffiness", "bloating", "inflamed", "swollen"],
+    "severity": "medium",
+    "advice": "Elevate the affected area, apply cold compress, reduce salt intake.",
+    "doctor_after_days": 5,
+    "possible_causes": ["Injury", "Infection", "Allergy", "Heart/kidney problems"]
+  },
+  "eye pain": {
+    "aliases": ["eye ache", "pain in eye", "sore eyes", "eye irritation"],
+    "severity": "medium",
+    "advice": "Rest your eyes, avoid rubbing, use artificial tears.",
+    "doctor_after_days": 3,
+    "possible_causes": ["Eye strain", "Infection", "Allergy", "Foreign object"]
+  },
+  "blurred vision": {
+    "aliases": ["vision problems", "blurry eyes", "difficulty seeing", "fuzzy vision"],
+    "severity": "high",
+    "advice": "Rest eyes, consult an eye doctor promptly.",
+    "doctor_after_days": 1,
+    "possible_causes": ["Eye strain", "Cataracts", "Diabetes", "Stroke"]
+  },
+  "ear pain": {
+    "aliases": ["earache", "pain in ear", "sore ear", "ear ache"],
+    "severity": "medium",
+    "advice": "Apply warm compress, avoid inserting anything in ear.",
+    "doctor_after_days": 3,
+    "possible_causes": ["Ear infection", "Swimmer's ear", "Sinus infection"]
+  },
+  "hearing loss": {
+    "aliases": ["deafness", "can't hear", "reduced hearing", "blocked ears"],
+    "severity": "high",
+    "advice": "Seek medical attention promptly.",
+    "doctor_after_days": 2,
+    "possible_causes": ["Ear infection", "Wax buildup", "Noise exposure", "Meniere's disease"]
+  },
+  "toothache": {
+    "aliases": ["tooth pain", "dental pain", "tooth ache", "mouth pain"],
+    "severity": "medium",
+    "advice": "Rinse with warm salt water, avoid hot/cold foods, see a dentist.",
+    "doctor_after_days": 2,
+    "possible_causes": ["Cavity", "Gum infection", "Tooth abscess", "Teeth grinding"]
+  },
+  "mouth sore": {
+    "aliases": ["canker sore", "mouth ulcer", "sore in mouth", "oral ulcer"],
+    "severity": "low",
+    "advice": "Avoid spicy/acidic foods, use mouth rinse, give it time to heal.",
+    "doctor_after_days": 7,
+    "possible_causes": ["Stress", "Vitamin deficiency", "Trauma", "Infection"]
+  },
+  "loss of appetite": {
+    "aliases": ["no appetite", "not hungry", "decreased appetite", "eating less"],
+    "severity": "medium",
+    "advice": "Try small, frequent meals, focus on nutrient-dense foods.",
+    "doctor_after_days": 5,
+    "possible_causes": ["Illness", "Stress", "Depression", "Digestive problems"]
+  },
+  "weight loss": {
+    "aliases": ["losing weight", "unintentional weight loss", "slimming"],
+    "severity": "high",
+    "advice": "Consult a doctor to determine the cause.",
+    "doctor_after_days": 7,
+    "possible_causes": ["Thyroid", "Diabetes", "Cancer", "Depression", "Malabsorption"]
+  },
+  "weight gain": {
+    "aliases": ["gaining weight", "putting on weight", "bloating"],
+    "severity": "medium",
+    "advice": "Maintain a balanced diet and regular exercise.",
+    "doctor_after_days": 14,
+    "possible_causes": ["Overeating", "Thyroid", "Fluid retention", "Stress"]
+  },
+  "insomnia": {
+    "aliases": ["can't sleep", "sleeplessness", "trouble sleeping", "no sleep"],
+    "severity": "medium",
+    "advice": "Maintain a sleep schedule, limit screen time, avoid caffeine.",
+    "doctor_after_days": 7,
+    "possible_causes": ["Stress", "Anxiety", "Poor sleep habits", "Medical conditions"]
+  },
+  "excessive sleepiness": {
+    "aliases": ["sleepy", "tired all the time", "drowsy", "oversleeping"],
+    "severity": "medium",
+    "advice": "Ensure 7-9 hours of sleep, maintain regular schedule.",
+    "doctor_after_days": 7,
+    "possible_causes": ["Sleep apnea", "Depression", "Anemia", "Thyroid"]
+  },
+  "anxiety": {
+    "aliases": ["nervous", "worried", "panic", "stress", "anxious", "racing thoughts"],
+    "severity": "medium",
+    "advice": "Practice deep breathing, limit caffeine, consider counseling.",
+    "doctor_after_days": 7,
+    "possible_causes": ["Stress", "Generalized anxiety disorder", "PTSD", "Medical conditions"]
+  },
+  "depression": {
+    "aliases": ["sad", "hopeless", "feeling down", "no motivation", "mood changes"],
+    "severity": "high",
+    "advice": "Consider talking to a mental health professional.",
+    "doctor_after_days": 7,
+    "possible_causes": ["Depression", "Life events", "Medical conditions", "Chemical imbalance"]
+  },
+  "memory problems": {
+    "aliases": ["forgetful", "memory loss", "confusion", "concentration issues"],
+    "severity": "high",
+    "advice": "Consult a doctor for evaluation.",
+    "doctor_after_days": 7,
+    "possible_causes": ["Stress", "Sleep deprivation", "Thyroid", "Dementia"]
+  },
+  "numbness": {
+    "aliases": ["tingling", "pins and needles", "lost sensation", "paresthesia"],
+    "severity": "high",
+    "advice": "Seek medical attention, especially if sudden or accompanied by weakness.",
+    "doctor_after_days": 1,
+    "possible_causes": ["Nerve compression", "Stroke", "Diabetes", "Multiple sclerosis"]
+  },
+  "tremor": {
+    "aliases": ["shaking", "trembling", "quivering", "shaky hands"],
+    "severity": "medium",
+    "advice": "Limit caffeine, manage stress, see a doctor if persistent.",
+    "doctor_after_days": 7,
+    "possible_causes": ["Essential tremor", "Parkinson's", "Anxiety", "Low blood sugar"]
+  },
+  "palpitations": {
+    "aliases": ["heart racing", "skipping beats", "irregular heartbeat", "heart flutter"],
+    "severity": "high",
+    "advice": "Limit caffeine and alcohol, practice deep breathing. Seek immediate care if with chest pain.",
+    "doctor_after_days": 2,
+    "possible_causes": ["Arrhythmia", "Anxiety", "Caffeine", "Heart disease"]
+  },
+  "high blood pressure": {
+    "aliases": ["hypertension", "elevated blood pressure", "blood pressure high"],
+    "severity": "high",
+    "advice": "Reduce salt intake, exercise regularly, monitor blood pressure.",
+    "doctor_after_days": 3,
+    "possible_causes": ["Hypertension", "Heart disease", "Kidney disease"]
+  },
+  "low blood pressure": {
+    "aliases": ["hypotension", "blood pressure low", "fainting"],
+    "severity": "medium",
+    "advice": "Stand up slowly, increase fluid and salt intake.",
+    "doctor_after_days": 3,
+    "possible_causes": ["Dehydration", "Heart problems", "Endocrine issues"]
+  },
+  "snoring": {
+    "aliases": ["loud snoring", "sleep apnea symptoms", "gasping at night"],
+    "severity": "medium",
+    "advice": "Lose weight, sleep on side, avoid alcohol.",
+    "doctor_after_days": 14,
+    "possible_causes": ["Sleep apnea", "Obesity", "Nasal obstruction", "Anatomy"]
+  },
+  "dry mouth": {
+    "aliases": ["dry throat", "cottonmouth", "thirsty"],
+    "severity": "low",
+    "advice": "Stay hydrated, chew sugar-free gum, use lip balm.",
+    "doctor_after_days": 7,
+    "possible_causes": ["Dehydration", "Medications", "Mouth breathing", "Diabetes"]
+  },
+  "bad breath": {
+    "aliases": ["halitosis", "foul mouth odor", "smelly breath"],
+    "severity": "low",
+    "advice": "Brush and floss regularly, stay hydrated, clean tongue.",
+    "doctor_after_days": 7,
+    "possible_causes": ["Poor oral hygiene", "Gum disease", "Sinus infection", "GERD"]
+  },
+  "hair loss": {
+    "aliases": ["thinning hair", "balding", "losing hair", " alopecia"],
+    "severity": "medium",
+    "advice": "Consult a dermatologist, manage stress, maintain good nutrition.",
+    "doctor_after_days": 14,
+    "possible_causes": ["Genetics", "Stress", "Hormonal changes", "Nutritional deficiencies"]
+  },
+  "constipation": {
+    "aliases": ["difficulty passing stool", "hard stools", "infrequent bowel"],
+    "severity": "low",
+    "advice": "Increase fiber intake, drink more water, exercise regularly.",
+    "doctor_after_days": 5,
+    "possible_causes": ["Low fiber", "Dehydration", "Lack of exercise", "IBS"]
+  },
+  "bloating": {
+    "aliases": ["gassy", "stomach bloating", "distended abdomen", "feeling full"],
+    "severity": "low",
+    "advice": "Avoid gas-producing foods, eat slowly, exercise gently.",
+    "doctor_after_days": 5,
+    "possible_causes": ["Gas", "Food intolerance", "IBS", "Overeating"]
+  },
+  "heartburn": {
+    "aliases": ["acid reflux", "gerd", "burning in chest", "indigestion"],
+    "severity": "low",
+    "advice": "Avoid spicy/fatty foods, don't lie down after eating, raise head while sleeping.",
+    "doctor_after_days": 7,
+    "possible_causes": ["GERD", "Acid reflux", "Hiatal hernia", "Food triggers"]
+  },
+  "burning urination": {
+    "aliases": ["painful urination", "dysuria", "urinary pain", "stinging when peeing"],
+    "severity": "medium",
+    "advice": "Drink plenty of water, urinate frequently, avoid irritants.",
+    "doctor_after_days": 3,
+    "possible_causes": ["Urinary tract infection", "STI", "Kidney stones", "Irritation"]
+  },
+  "frequent urination": {
+    "aliases": ["urinating often", "polyuria", "increased urination", "peeing a lot"],
+    "severity": "medium",
+    "advice": "Limit fluids before bed, avoid bladder irritants.",
+    "doctor_after_days": 5,
+    "possible_causes": ["UTI", "Diabetes", "Overactive bladder", "Pregnancy"]
+  },
+  "blood in urine": {
+    "aliases": ["hematuria", "bloody urine", "pink urine", "blood in pee"],
+    "severity": "high",
+    "advice": "Seek immediate medical attention.",
+    "doctor_after_days": 0,
+    "possible_causes": ["UTI", "Kidney stones", "Kidney disease", "Cancer"]
+  },
+  "leg swelling": {
+    "aliases": ["swollen legs", "edema in legs", "puffy legs"],
+    "severity": "medium",
+    "advice": "Elevate legs, reduce salt intake, wear compression socks.",
+    "doctor_after_days": 5,
+    "possible_causes": ["Heart failure", "Kidney disease", "Blood clot", "Injury"]
+  },
+  "night sweats": {
+    "aliases": ["sweating at night", "excessive night sweating", "waking up sweaty"],
+    "severity": "medium",
+    "advice": "Keep bedroom cool, wear light sleepwear, monitor temperature.",
+    "doctor_after_days": 7,
+    "possible_causes": ["Infection", "Menopause", "Cancer", "Medication side effects"]
+  },
+  "hot flashes": {
+    "aliases": ["sudden heat", "flushing", "feeling hot"],
+    "severity": "low",
+    "advice": "Wear layers, keep environment cool, avoid triggers.",
+    "doctor_after_days": 7,
+    "possible_causes": ["Menopause", "Hormonal changes", "Thyroid"]
+  },
+  "cold hands feet": {
+    "aliases": ["raynaud's", "cold extremities", "numb fingers", "icy hands"],
+    "severity": "low",
+    "advice": "Keep warm, avoid smoking, manage stress.",
+    "doctor_after_days": 7,
+    "possible_causes": ["Raynaud's phenomenon", "Anemia", "Hypothyroidism"]
+  },
+  "nosebleed": {
+    "aliases": ["epistaxis", "bleeding from nose", "bloody nose"],
+    "severity": "low",
+    "advice": "Pinch soft part of nose, lean forward, apply cold compress.",
+    "doctor_after_days": 2,
+    "possible_causes": ["Dry air", "Injury", "High blood pressure", "Blood thinners"]
+  },
+  "wheezing": {
+    "aliases": ["whistling breath", "high-pitched breathing", "breathing difficulty"],
+    "severity": "high",
+    "advice": "Use rescue inhaler if prescribed, avoid triggers, seek emergency care if severe.",
+    "doctor_after_days": 1,
+    "possible_causes": ["Asthma", "COPD", "Allergies", "Infection"]
+  },
+  "sneezing": {
+    "aliases": ["sneeze", "sneezy", "频繁打喷嚏"],
+    "severity": "low",
+    "advice": "Avoid triggers, use antihistamines if allergic.",
+    "doctor_after_days": 5,
+    "possible_causes": ["Allergies", "Cold", "Irritants", "Bright light"]
+  },
+  "stiff neck": {
+    "aliases": ["neck stiffness", "neck pain", "tight neck", "torticollis"],
+    "severity": "low",
+    "advice": "Apply heat, gentle stretching, maintain good posture.",
+    "doctor_after_days": 5,
+    "possible_causes": ["Muscle strain", "Poor sleep position", "Meningitis", "Arthritis"]
+  },
+  "flu symptoms": {
+    "aliases": ["flu", "influenza", "seasonal flu", "flu-like"],
+    "severity": "medium",
+    "advice": "Rest, stay hydrated, take fever reducers, isolate to prevent spread.",
+    "doctor_after_days": 5,
+    "possible_causes": ["Influenza virus"]
+  },
+  "cold symptoms": {
+    "aliases": ["common cold", "flu-like symptoms", "viral cold", "i have a cold", "got a cold", "catching a cold"],
+    "severity": "low",
+    "advice": "Rest, stay hydrated, use decongestants if needed.",
+    "doctor_after_days": 7,
+    "possible_causes": ["Rhinovirus", "Other respiratory viruses"]
+  },
+  "allergy symptoms": {
+    "aliases": ["allergies", "allergic reaction", "allergic", "hay fever"],
+    "severity": "low",
+    "advice": "Avoid allergens, use antihistamines, keep environment clean.",
+    "doctor_after_days": 7,
+    "possible_causes": ["Pollen", "Dust", "Pet dander", "Food allergies"]
+  },
+  "food poisoning": {
+    "aliases": ["food sickness", "foodborne illness", "bad food"],
+    "severity": "medium",
+    "advice": "Stay hydrated, rest, avoid solid food until vomiting stops.",
+    "doctor_after_days": 2,
+    "possible_causes": ["Contaminated food", "Bacteria", "Viruses", "Toxins"]
+  },
+  "asthma symptoms": {
+    "aliases": ["asthma attack", "asthma", "wheezing breathing"],
+    "severity": "high",
+    "advice": "Use prescribed inhaler, avoid triggers, seek emergency care if worsening.",
+    "doctor_after_days": 1,
+    "possible_causes": ["Asthma"]
+  },
+  "diabetes symptoms": {
+    "aliases": ["diabetes signs", "high blood sugar", "diabetic symptoms"],
+    "severity": "high",
+    "advice": "Monitor blood sugar, maintain healthy diet, consult doctor.",
+    "doctor_after_days": 3,
+    "possible_causes": ["Type 2 diabetes", "Type 1 diabetes", "Prediabetes"]
+  },
+  "thyroid symptoms": {
+    "aliases": ["thyroid problems", "thyroid issues", "thyroid imbalance"],
+    "severity": "medium",
+    "advice": "Consult an endocrinologist for testing.",
+    "doctor_after_days": 7,
+    "possible_causes": ["Hypothyroidism", "Hyperthyroidism", "Thyroid nodules"]
+  },
+  "kidney stone symptoms": {
+    "aliases": ["kidney pain", "renal colic", "stone in kidney"],
+    "severity": "high",
+    "advice": "Drink plenty of water, take pain medication, seek medical care.",
+    "doctor_after_days": 1,
+    "possible_causes": ["Kidney stones"]
+  },
+  "appendicitis symptoms": {
+    "aliases": ["appendix pain", "appendix issues"],
+    "severity": "high",
+    "advice": "Seek immediate medical attention - could require surgery.",
+    "doctor_after_days": 0,
+    "possible_causes": ["Appendicitis"]
+  },
+  "menstrual cramps": {
+    "aliases": ["period pain", "menstrual pain", "dysmenorrhea", "cramps"],
+    "severity": "low",
+    "advice": "Use heat pad, take pain relievers, exercise gently.",
+    "doctor_after_days": 3,
+    "possible_causes": ["Menstruation", "Endometriosis", "Fibroids"]
+  },
+  "irregular periods": {
+    "aliases": ["period problems", "missed periods", "irregular menstruation"],
+    "severity": "medium",
+    "advice": "Track cycles, manage stress, consult gynecologist if persistent.",
+    "doctor_after_days": 14,
+    "possible_causes": ["PCOS", "Stress", "Hormonal imbalance", "Pregnancy"]
+  },
+  "hiccups": {
+    "aliases": ["hiccup", "singultus"],
+    "severity": "low",
+    "advice": "Try holding your breath, drinking water quickly, or pulling your knees to your chest.",
+    "doctor_after_days": 2,
+    "possible_causes": ["Eating too fast", "Carbonated drinks", "Sudden temperature change", "Excitement"]
+  },
+  "indigestion": {
+    "aliases": ["upset stomach", "stomach discomfort", "dyspepsia", "heartburn"],
+    "severity": "low",
+    "advice": "Avoid overeating, spicy foods, and lying down after meals.",
+    "doctor_after_days": 3,
+    "possible_causes": ["Overeating", "Acid reflux", "Food intolerance", "Stress"]
+  },
+  "gas": {
+    "aliases": ["flatulence", "farting", "passing gas", "bloated"],
+    "severity": "low",
+    "advice": "Avoid gas-producing foods, eat slowly, exercise gently.",
+    "doctor_after_days": 7,
+    "possible_causes": ["Food breakdown", "Swallowing air", "Food intolerance"]
+  },
+  "muscle weakness": {
+    "aliases": ["weak muscles", "no strength", "feeling weak", "fatigue"],
+    "severity": "medium",
+    "advice": "Rest, ensure proper nutrition, consult a doctor if persistent.",
+    "doctor_after_days": 7,
+    "possible_causes": ["Anemia", "Thyroid", "Infection", "Neurological issues"]
+  },
+  "double vision": {
+    "aliases": ["seeing double", "diplopia"],
+    "severity": "high",
+    "advice": "Seek medical attention promptly.",
+    "doctor_after_days": 1,
+    "possible_causes": ["Eye muscle problems", "Stroke", "Brain tumor", "Head injury"]
+  },
+  "yellow skin": {
+    "aliases": ["jaundice", "yellow eyes", "skin turning yellow"],
+    "severity": "high",
+    "advice": "Seek medical attention - could indicate liver problems.",
+    "doctor_after_days": 2,
+    "possible_causes": ["Liver disease", "Gallbladder problems", "Hepatitis"]
+  },
+  "frequent urination at night": {
+    "aliases": ["nocturia", "waking up to pee", "peeing at night"],
+    "severity": "low",
+    "advice": "Limit fluids before bedtime, avoid caffeine and alcohol.",
+    "doctor_after_days": 7,
+    "possible_causes": ["UTI", "Diabetes", "Prostate issues", "Overactive bladder"]
+  },
+  "skin lumps": {
+    "aliases": ["lump under skin", "skin nodule", "bump on skin", "growth"],
+    "severity": "medium",
+    "advice": "Monitor the lump. Consult a doctor if it grows, changes, or becomes painful.",
+    "doctor_after_days": 14,
+    "possible_causes": ["Lipoma", "Cyst", "Infection", "Rarely cancer"]
+  },
+  "difficulty swallowing": {
+    "aliases": ["trouble swallowing", "dysphagia", "cant swallow", "painful swallowing"],
+    "severity": "high",
+    "advice": "Seek medical attention - could be serious.",
+    "doctor_after_days": 2,
+    "possible_causes": ["Throat infection", "Stroke", "GERD", "Tumor"]
+  },
+  "hoarseness": {
+    "aliases": ["hoarse voice", "voice change", "raspy voice", "lost voice"],
+    "severity": "low",
+    "advice": "Rest your voice, avoid shouting, stay hydrated.",
+    "doctor_after_days": 7,
+    "possible_causes": ["Laryngitis", "Throat infection", "Overuse of voice", "Allergies"]
+  },
+  "excessive thirst": {
+    "aliases": ["very thirsty", "polydipsia", "always thirsty"],
+    "severity": "medium",
+    "advice": "Monitor your water intake and consult a doctor.",
+    "doctor_after_days": 5,
+    "possible_causes": ["Diabetes", "Dehydration", "Medication side effect"]
+  },
+  "skin dryness": {
+    "aliases": ["dry skin", "itchy dry skin", "flaky skin"],
+    "severity": "low",
+    "advice": "Use moisturizer, drink plenty of water, avoid hot showers.",
+    "doctor_after_days": 7,
+    "possible_causes": ["Dry climate", "Eczema", "Aging", "Dehydration"]
+  },
+  "leg cramps": {
+    "aliases": ["cramps in legs", "charley horse", "muscle spasm leg"],
+    "severity": "low",
+    "advice": "Stretch, stay hydrated, ensure adequate potassium and magnesium.",
+    "doctor_after_days": 3,
+    "possible_causes": ["Dehydration", "Electrolyte imbalance", "Overexertion", "Poor circulation"]
+  },
+  "pale skin": {
+    "aliases": ["pallor", "looking pale", "skin color change"],
+    "severity": "medium",
+    "advice": "Consult a doctor - could indicate anemia.",
+    "doctor_after_days": 5,
+    "possible_causes": ["Anemia", "Blood loss", "Chronic illness", "Shock"]
+  },
+  "drooping face": {
+    "aliases": ["face drooping", "facial droop", "one side of face weak"],
+    "severity": "high",
+    "advice": "This could be a stroke symptom. Seek immediate emergency care.",
+    "doctor_after_days": 0,
+    "possible_causes": ["Stroke", "Bell's palsy", "Trauma"]
+  },
+  "arm weakness": {
+    "aliases": ["weak arm", "cant lift arm", "arm feels heavy"],
+    "severity": "high",
+    "advice": "Could be stroke. Seek immediate medical attention.",
+    "doctor_after_days": 0,
+    "possible_causes": ["Stroke", "Nerve damage", "Muscle injury"]
+  },
+  "slurred speech": {
+    "aliases": ["difficulty speaking", "cant speak clearly", "speech problems"],
+    "severity": "high",
+    "advice": "Could be stroke. Seek immediate medical attention.",
+    "doctor_after_days": 0,
+    "possible_causes": ["Stroke", "Brain injury", "Neurological condition"]
+  }
 }

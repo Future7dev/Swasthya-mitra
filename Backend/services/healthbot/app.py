@@ -24,7 +24,7 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI(title="HealthBot API")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # or ["http://localhost:5173"]
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -51,7 +51,7 @@ def root():
     return {
         "name": "Swasthya Mitra HealthBot",
         "version": "2.0",
-        "features": ["rule-based responses", "llm_enhancement", "session_management", "follow_up_intelligence"]
+        "features": ["rule-based responses", "llm_enhancement", "session_management", "follow_up_intelligence", "expanded_symptoms_db"]
     }
 
 @app.get("/health")
@@ -59,7 +59,9 @@ def health():
     return {
         "status": "healthy",
         "llm_available": is_llm_available(),
-        "llm_models": get_available_models()
+        "llm_models": get_available_models(),
+        "symptoms_count": len(rules),
+        "emergencies_count": len(emergencies)
     }
 
 @app.post("/session/create")
@@ -109,6 +111,14 @@ def chat(req: ChatRequest):
     
     if confidence == "low":
         response = build_clarification(merged_context, session.get("context", {}) if session else {})
+        
+        if is_llm_available():
+            response = enhance_response(
+                response,
+                user_input,
+                context=merged_context,
+                conversation_history=history
+            )
     else:
         response = build_response(merged_context, rules, emergencies)
         
