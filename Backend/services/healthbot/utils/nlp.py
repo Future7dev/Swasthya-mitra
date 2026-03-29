@@ -12,22 +12,22 @@ except:
 SYMPTOM_RULES = load_symptoms()
 EMERGENCIES = load_emergencies()
 
-NEGATIONS = {"not", "no", "dont", "don't", "doesnt", "doesn't", "without", "never", "neither", "nor", "none", "nothing", "neither"}
+NEGATIONS = {"not", "no", "dont", "don't", "doesnt", "doesn't", "without", "never", "neither", "nor", "none", "nothing", "neither", "cant", "can't", "wont", "won't", "havent", "haven't", "isnt", "isn't"}
 
 URGENCY_WORDS = {
-    "high": {"severe", "intense", "extreme", "critical", "urgent", "emergency", "worsening", "sudden"},
-    "medium": {"moderate", "concerning", "worrying", "persistent", "recurring"},
-    "low": {"mild", "slight", "minor", "occasional", "sometimes"}
+    "high": {"severe", "intense", "extreme", "critical", "urgent", "emergency", "worsening", "sudden", "excruciating", "unbearable", "awful", "terrible"},
+    "medium": {"moderate", "concerning", "worrying", "persistent", "recurring", "significant", "noticeable"},
+    "low": {"mild", "slight", "minor", "occasional", "sometimes", "little", "bit"}
 }
 
 INTENT_PATTERNS = {
-    "emergency": ["emergency", "urgent", "critical", "dying", "unconscious", "bleeding", "chest pain", "can't breathe", "can't breath"],
-    "symptom_check": ["i have", "i'm feeling", "i feel", "having", "suffering", "experiencing", "my", "pain", "hurt", "ache", "sick"],
-    "medical_advice": ["should i", "what should", "do i need", "can i", "is it normal", "help", "advice", "recommend"],
-    "follow_up": ["follow up", "check up", "after that", "previous", "earlier", "before", "what did", "remember"],
-    "general_question": ["what is", "how does", "why", "when", "where", "who", "explain"],
-    "medication": ["medicine", "medication", "drug", "pill", "tablet", "dose", "prescription", "take", "prescribe"],
-    "appointment": ["appointment", "schedule", "doctor", "visit", "clinic", "hospital", "see a doctor"],
+    "emergency": ["emergency", "urgent", "critical", "dying", "unconscious", "bleeding", "chest pain", "can't breathe", "can't breath", "life threatening", "severe", "immediate"],
+    "symptom_check": ["i have", "i'm feeling", "i feel", "having", "suffering", "experiencing", "my", "pain", "hurt", "ache", "sick", "symptom", "symptoms"],
+    "medical_advice": ["should i", "what should", "do i need", "can i", "is it normal", "help", "advice", "recommend", "suggestion", "guidance"],
+    "follow_up": ["follow up", "check up", "after that", "previous", "earlier", "before", "what did", "remember", "still", "continuing"],
+    "general_question": ["what is", "how does", "why", "when", "where", "who", "explain", "tell me about", "information"],
+    "medication": ["medicine", "medication", "drug", "pill", "tablet", "dose", "prescription", "take", "prescribe", "pharmacy"],
+    "appointment": ["appointment", "schedule", "doctor", "visit", "clinic", "hospital", "see a doctor", "consult"],
 }
 
 def normalize(text: str) -> str:
@@ -43,19 +43,49 @@ def tokenize(text: str):
 def extract_symptoms(text: str):
     found = set()
     text_lower = text.lower()
-    tokens = set(tokenize(text))
+    tokens = tokenize(text)
+    words = set(text_lower.split())
     
     for symptom, data in SYMPTOM_RULES.items():
-        if symptom in text_lower:
+        symptom_words = symptom.split()
+        
+        if all(sw in words for sw in symptom_words):
             if not _is_negated(symptom, text_lower):
                 found.add(symptom)
+        elif symptom in text_lower:
+            match_pos = text_lower.find(symptom)
+            before = text_lower[max(0, match_pos-1):match_pos]
+            after = text_lower[match_pos+len(symptom):match_pos+len(symptom)+1]
+            if (before.isalnum() or before == '') and (after.isalnum() or after == ''):
+                if not _is_negated(symptom, text_lower):
+                    found.add(symptom)
+        
         for alias in data.get("aliases", []):
-            if alias in text_lower and not _is_negated(alias, text_lower):
-                found.add(symptom)
+            alias_words = alias.split()
+            if all(aw in words for aw in alias_words):
+                if not _is_negated(alias, text_lower):
+                    found.add(symptom)
+            elif all(any(alias_w in token for token in tokens) for alias_w in alias_words):
+                if not _is_negated(alias, text_lower):
+                    found.add(symptom)
+            elif alias in text_lower:
+                match_pos = text_lower.find(alias)
+                before = text_lower[max(0, match_pos-1):match_pos]
+                after = text_lower[match_pos+len(alias):match_pos+len(alias)+1]
+                if (before.isalnum() or before == '') and (after.isalnum() or after == ''):
+                    if not _is_negated(alias, text_lower):
+                        found.add(symptom)
+        
         for keyword in data.get("keywords", []):
             if keyword in tokens:
                 found.add(symptom)
 
+    for emergency in EMERGENCIES:
+        emergency_words = emergency.split()
+        if all(ew in words for ew in emergency_words):
+            if not _is_negated(emergency, text_lower):
+                found.add(emergency.split()[0])
+    
     return list(found)
 
 def _is_negated(term: str, text: str) -> bool:
@@ -77,6 +107,8 @@ def extract_duration(text: str):
         (r"(\d+)\s*(month|months)", 2592000),
         (r"(\d+)\s*(hour|hours)", 3600),
         (r"since\s+(\d+)\s*(day|days|week|weeks|month|months)", 86400),
+        (r"for\s+(\d+)\s*(day|days|week|weeks|month|months)", 86400),
+        (r"(\d+)\s*(year|years)", 31536000),
     ]
     
     for pattern, _ in patterns:
@@ -89,18 +121,22 @@ def extract_duration(text: str):
                 return num * 30
             if "hour" in match.group(0):
                 return num / 24
+            if "year" in match.group(0):
+                return num * 365
             return num
     
-    if "today" in text_lower or "since this morning" in text_lower:
+    if "today" in text_lower or "since this morning" in text_lower or "just now" in text_lower or "started" in text_lower:
         return 1
-    if "yesterday" in text_lower:
+    if "yesterday" in text_lower or "last night" in text_lower:
         return 2
-    if "few days" in text_lower or "couple of days" in text_lower:
+    if "few days" in text_lower or "couple of days" in text_lower or "2-3 days" in text_lower:
         return 3
     if "week" in text_lower:
         return 7
-    if "long time" in text_lower or "while" in text_lower:
+    if "long time" in text_lower or "while" in text_lower or "awhile" in text_lower:
         return 14
+    if "months" in text_lower or "longer" in text_lower:
+        return 30
     
     return None
 
@@ -111,9 +147,9 @@ def extract_severity(text: str) -> str:
         if any(word in text_lower for word in words):
             return level
     
-    if "worse" in text_lower or "worsening" in text_lower:
+    if "worse" in text_lower or "worsening" in text_lower or "getting worse" in text_lower:
         return "high"
-    if "better" in text_lower or "improving" in text_lower:
+    if "better" in text_lower or "improving" in text_lower or "getting better" in text_lower:
         return "low"
     
     return "unknown"
@@ -159,12 +195,12 @@ def extract_medical_entities(text: str) -> dict:
     
     text_lower = text.lower()
     
-    body_parts = ["head", "chest", "stomach", "back", "leg", "arm", "hand", "foot", "face", "eye", "ear", "nose", "throat"]
+    body_parts = ["head", "chest", "stomach", "back", "leg", "arm", "hand", "foot", "face", "eye", "ear", "nose", "throat", "neck", "abdomen", "pelvis", "heart", "lungs", "kidney", "liver", "skin", "joint", "muscle", "bone", "brain"]
     for part in body_parts:
         if part in text_lower:
             entities["body_parts"].append(part)
     
-    conditions = ["fever", "cough", "cold", "flu", "infection", "allergy", "diabetes", "blood pressure"]
+    conditions = list(SYMPTOM_RULES.keys())
     for cond in conditions:
         if cond in text_lower:
             entities["conditions"].append(cond)
