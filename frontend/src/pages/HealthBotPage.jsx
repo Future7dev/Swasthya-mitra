@@ -11,6 +11,10 @@ function HealthBotPage({ user }) {
   const [sessionId] = useState(() => `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`);
   const messagesEndRef = useRef(null);
 
+  // Use `process.env.REACT_APP_HEALTHBOT_API_BASE_URL` if you created your app with Create React App.
+  // If you are using Vite, change this to `import.meta.env.VITE_HEALTHBOT_API_BASE_URL`
+  const HEALTHBOT_API_BASE_URL = process.env.REACT_APP_HEALTHBOT_API_BASE_URL || "http://localhost:8000";
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -28,7 +32,7 @@ function HealthBotPage({ user }) {
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:8000/chat', {
+      const response = await fetch(`${HEALTHBOT_API_BASE_URL}/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

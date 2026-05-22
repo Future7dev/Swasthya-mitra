@@ -10,6 +10,11 @@ function ProfilePage({user}) {
     gender: user.gender,
     image: user.image
   });
+
+  // Use `process.env.REACT_APP_API_BASE_URL` if you created your app with Create React App.
+  // If you are using Vite, change this to `import.meta.env.VITE_API_BASE_URL`
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:8080";
+
   const handleChange = (e) => {
   setFormData({
     ...formData,
@@ -20,7 +25,7 @@ function ProfilePage({user}) {
   const handleSubmit = async (e) => {
   e.preventDefault();
 
-  const res = await fetch("http://localhost:8080/api/update", {
+  const res = await fetch(`${API_BASE_URL}/api/update`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

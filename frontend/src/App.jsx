@@ -22,6 +22,11 @@ function App() {
   //   localStorage.clear()
   // },[]);
   const navigate=useNavigate();
+
+  // Use `process.env.REACT_APP_API_BASE_URL` if you created your app with Create React App.
+  // If you are using Vite, change this to `import.meta.env.VITE_API_BASE_URL`
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:8080";
+
   useEffect(()=>{
 
     let storedAuth=localStorage.getItem("token");
@@ -34,7 +39,7 @@ function App() {
     }
 
     if(storedAuth && !storedUser){
-      fetch("http://localhost:8080/api/login",{
+      fetch(`${API_BASE_URL}/api/login`,{
         headers: {
         "Authorization": "Basic " + storedAuth
       }
@@ -101,7 +106,7 @@ function App() {
     meetingLink:newRoomId
     };
 
-    fetch("http://localhost:8080/api/savelink", {
+    fetch(`${API_BASE_URL}/api/savelink`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
