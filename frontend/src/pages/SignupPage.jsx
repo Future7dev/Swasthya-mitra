@@ -13,9 +13,7 @@ function SignupPage() {
   const[loading,setLoading]=useState(false);
   const navigate=useNavigate();
 
-  // Use `process.env.REACT_APP_API_BASE_URL` if you created your app with Create React App.
-  // If you are using Vite, change this to `import.meta.env.VITE_API_BASE_URL`
-  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:8080";
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8080";
 
   const handleSignup = () => {
     if (!name || !gmail || !password || !dob||!gender || !image) return;

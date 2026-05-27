@@ -11,9 +11,7 @@ function HealthBotPage({ user }) {
   const [sessionId] = useState(() => `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`);
   const messagesEndRef = useRef(null);
 
-  // Use `process.env.REACT_APP_HEALTHBOT_API_BASE_URL` if you created your app with Create React App.
-  // If you are using Vite, change this to `import.meta.env.VITE_HEALTHBOT_API_BASE_URL`
-  const HEALTHBOT_API_BASE_URL = process.env.REACT_APP_HEALTHBOT_API_BASE_URL || "http://localhost:8000";
+  const HEALTHBOT_API_BASE_URL = import.meta.env.VITE_HEALTHBOT_API_BASE_URL || "http://localhost:8000";
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });

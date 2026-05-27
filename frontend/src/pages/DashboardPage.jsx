@@ -20,6 +20,7 @@ function DashboardPage({user}) {
   const [showResult, setShowResult] = useState(false);
   const [activeTab, setActiveTab] = useState("disease");
   const [predicted, setPredicted] = useState(false);
+  const ML_API_BASE_URL = import.meta.env.VITE_ML_API_BASE_URL || "http://localhost:5000";
 
 
 
