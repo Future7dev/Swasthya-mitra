@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Container, Card, Form, Button, ListGroup, Badge } from 'react-bootstrap';
-import { Robot, User, Send, Trash } from 'react-bootstrap-icons';
+import { Robot, Person, Send, Trash } from 'react-bootstrap-icons';
 
 function HealthBotPage({ user }) {
   const [messages, setMessages] = useState([
@@ -119,7 +119,7 @@ function HealthBotPage({ user }) {
                   </div>
                   {msg.role === 'user' && (
                     <div className="bg-secondary rounded-circle d-flex align-items-center justify-content-center ms-2" style={{ width: 36, height: 36, flexShrink: 0 }}>
-                      <User size={20} className="text-white" />
+                      <Person size={20} className="text-white" />
                     </div>
                   )}
                 </div>
