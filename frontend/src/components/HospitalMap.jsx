@@ -82,12 +82,15 @@ function HospitalMap() {
         out center;
       `;
 
-      const response = await axios.get(
-        "https://overpass-api.de/api/interpreter",
-        {
-          params: { data: query }
-        }
-      );
+      const response = await axios.post(
+    "https://overpass.kumi.systems/api/interpreter",
+    query,
+    {
+      headers: {
+        "Content-Type": "text/plain",
+      },
+    }
+  );
 
       setHospitals(response.data.elements);
     };
