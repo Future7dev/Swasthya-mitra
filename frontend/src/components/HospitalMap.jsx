@@ -73,33 +73,20 @@ function HospitalMap() {
   if (!currentLocation) return;
 
   const fetchHospitals = async () => {
-    const query = `
-    [out:json][timeout:25];
-    (
-      node["amenity"="hospital"](around:10000,${currentLocation.lat},${currentLocation.lng});
-      way["amenity"="hospital"](around:10000,${currentLocation.lat},${currentLocation.lng});
-    );
-    out center;
-    `;
-
-    // List of fallback servers
-    
-
-    
-      try {
-        const response = await axios.post('/overpass', query, {
-        headers: { "Content-Type": "text/plain" },
-        timeout: 20000,
-      });
-        setHospitals(response.data.elements);
-        return; // ✅ Success, stop trying
-      } catch (err) {
-        console.warn(`Failed on ${server}:`, err.message);
-      }
-    
-
-    alert("Could not load hospitals. All servers timed out.");
-  };
+  const response = await axios.get("https://nominatim.openstreetmap.org/search", {
+    params: {
+      q: "hospital",
+      format: "json",
+      lat: currentLocation.lat,
+      lon: currentLocation.lng,
+      viewbox: `${currentLocation.lng - 0.1},${currentLocation.lat + 0.1},${currentLocation.lng + 0.1},${currentLocation.lat - 0.1}`,
+      bounded: 1,
+      limit: 20,
+    },
+    headers: { "User-Agent": "SwasthyaMitra/1.0" },
+  });
+  setHospitals(response.data);
+};
 
   fetchHospitals();
 }, [currentLocation]);
