@@ -11,7 +11,7 @@ function ProfilePage({user}) {
     image: user.image
   });
 
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8080";
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://swasthya-mitra-g7v7.onrender.com";
 
   const handleChange = (e) => {
   setFormData({

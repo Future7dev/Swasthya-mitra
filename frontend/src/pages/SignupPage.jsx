@@ -13,11 +13,14 @@ function SignupPage() {
   const[loading,setLoading]=useState(false);
   const navigate=useNavigate();
 
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8080";
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://swasthya-mitra-g7v7.onrender.com";
 
   const handleSignup = () => {
     console.log(API_BASE_URL);
-    if (!name || !gmail || !password || !dob||!gender || !image) return;
+    if (!name || !gmail || !password || !dob||!gender || !image) {
+      alert("Please fill out all the fields and upload a profile image.");
+      return;
+    }
 
     fetch(`${API_BASE_URL}/api/signup`, {
       method: "POST",
