@@ -70,34 +70,43 @@ function HospitalMap() {
 
 
   useEffect(() => {
-    if (!currentLocation) return;
+  if (!currentLocation) return;
 
-    const fetchHospitals = async () => {
-      const query = `
-      [out:json][timeout:25];
-      (
-        node["amenity"="hospital"](around:10000,${currentLocation.lat},${currentLocation.lng});
-        way["amenity"="hospital"](around:10000,${currentLocation.lat},${currentLocation.lng});
-      );
-      out center;
-      `;
-
-      const response = await axios.post(
-      "https://overpass.kumi.systems/api/interpreter",
-      query,
-      {
-        headers: {
-          "Content-Type": "text/plain",
-        },
-        timeout: 30000,
-      }
+  const fetchHospitals = async () => {
+    const query = `
+    [out:json][timeout:25];
+    (
+      node["amenity"="hospital"](around:10000,${currentLocation.lat},${currentLocation.lng});
+      way["amenity"="hospital"](around:10000,${currentLocation.lat},${currentLocation.lng});
     );
+    out center;
+    `;
 
-      setHospitals(response.data.elements);
-    };
+    // List of fallback servers
+    const servers = [
+  "https://overpass.private.coffee/api/interpreter",  // ✅ CORS-friendly
+  "https://overpass-api.de/api/interpreter",           // ✅ Usually works
+  "https://overpass.openstreetmap.ru/api/interpreter", // ✅ Another mirror
+];
 
-    fetchHospitals();
-  }, [currentLocation]);
+    for (const server of servers) {
+      try {
+        const response = await axios.post(server, query, {
+          headers: { "Content-Type": "text/plain" },
+          timeout: 20000,
+        });
+        setHospitals(response.data.elements);
+        return; // ✅ Success, stop trying
+      } catch (err) {
+        console.warn(`Failed on ${server}:`, err.message);
+      }
+    }
+
+    alert("Could not load hospitals. All servers timed out.");
+  };
+
+  fetchHospitals();
+}, [currentLocation]);
 
   const getRoute = async (destLat, destLng) => {
   if (!currentLocation) {
