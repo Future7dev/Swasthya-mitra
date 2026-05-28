@@ -82,13 +82,10 @@ function HospitalMap() {
         out center;
       `;
 
-      const response = await axios.post(
+      const response = await axios.get(
         "https://overpass-api.de/api/interpreter",
-        `data=${encodeURIComponent(query)}`,
         {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
+          params: { data: query }
         }
       );
 
