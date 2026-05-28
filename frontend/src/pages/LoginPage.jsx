@@ -14,18 +14,28 @@ function LoginPage({setAuth}) {
   //   localStorage.removeItem("token");
   // },[]);
 
-  let handleLogin=(e)=>{
-    e.preventDefault();
-    if (!gmail || !password) return;
+  let handleLogin = async (e) => {
+  e.preventDefault();
 
+  if (!gmail || !password) return;
+
+  try {
     setLoading(true);
 
-    setTimeout(() => {
-      const token = btoa(gmail + ":" + password);
-      setAuth(token);
-      navigate("/home");
-    }, 800);
+    // simulate API
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    const token = btoa(gmail + ":" + password);
+
+    setAuth(token);
+
+    navigate("/home");
+  } catch (err) {
+    console.log(err);
+  } finally {
+    setLoading(false);
   }
+};
   return (
     <>
       {loading && (
@@ -33,7 +43,7 @@ function LoginPage({setAuth}) {
           <Spinner animation="border" variant="primary" style={{ width: '3rem', height: '3rem' }} />
         </div>
       )}
-      <div className="auth-page-wrapper" style={{ filter: loading ? 'blur(4px)' : 'none', transition: 'filter 0.3s ease', pointerEvents: loading ? 'none' : 'auto' }}>
+      <div className="auth-page-wrapper" style={{ filter: loading ? 'blur(4px)' : 'none', transition: 'filter 0.6s ease', pointerEvents: loading ? 'none' : 'auto' }}>
       <Container>
         <Row className="justify-content-center">
           <Col md={10} lg={8}>
