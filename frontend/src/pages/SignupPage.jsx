@@ -27,12 +27,21 @@ function SignupPage() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name,gender,dob,gmail, password,image }),
     })
-      .then((res) => res.json())
+      .then(async (res) => {
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.message || "Signup failed");
+        }
+        return data;
+      })
       .then(() => {
         alert("Signup successful! Please login.");
         navigate("/login");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        alert(err.message);
+      });
   };
 
   const handleImgUpload= async (e)=>{
