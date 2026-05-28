@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
+import { Container, Row, Col, Card, Form, Button, Spinner } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { HeartPulse } from 'react-bootstrap-icons';
 
 function LoginPage({setAuth}) {
   const [gmail,setGmail]=useState("");
   const[password,setPassword]=useState("");
+  const [loading, setLoading] = useState(false);
   let navigate=useNavigate();
 
   // useEffect(()=>{
@@ -17,14 +18,22 @@ function LoginPage({setAuth}) {
     e.preventDefault();
     if (!gmail || !password) return;
 
-    
-    const token = btoa(gmail + ":" + password);
-    navigate("/home");
-    setAuth(token);
-    
+    setLoading(true);
+
+    setTimeout(() => {
+      const token = btoa(gmail + ":" + password);
+      setAuth(token);
+      navigate("/home");
+    }, 800);
   }
   return (
-    <div className="auth-page-wrapper">
+    <>
+      {loading && (
+        <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(255, 255, 255, 0.4)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <Spinner animation="border" variant="primary" style={{ width: '3rem', height: '3rem' }} />
+        </div>
+      )}
+      <div className="auth-page-wrapper" style={{ filter: loading ? 'blur(4px)' : 'none', transition: 'filter 0.3s ease', pointerEvents: loading ? 'none' : 'auto' }}>
       <Container>
         <Row className="justify-content-center">
           <Col md={10} lg={8}>
@@ -69,7 +78,8 @@ function LoginPage({setAuth}) {
           </Col>
         </Row>
       </Container>
-    </div>
+      </div>
+    </>
   );
 }
 
