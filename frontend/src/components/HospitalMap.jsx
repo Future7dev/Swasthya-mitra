@@ -83,7 +83,7 @@ function HospitalMap() {
       bounded: 1,
       limit: 20,
     },
-    headers: { "User-Agent": "SwasthyaMitra/1.0" },
+   
   });
   setHospitals(response.data);
 };
@@ -165,25 +165,25 @@ function HospitalMap() {
         )}
 
         {hospitals.map((h, i) => {
-          const lat = h.lat || h.center?.lat;
-          const lng = h.lon || h.center?.lon;
-          if (!lat || !lng) return null;
+  const lat = parseFloat(h.lat);
+  const lng = parseFloat(h.lon);
+  if (!lat || !lng) return null;
 
-          return (
-            <Marker
-              key={i}
-              position={[lat, lng]}
-              icon={hospitalIcon}
-              eventHandlers={{
-                click: () => getRoute(lat, lng),
-              }}
-            >
-              <Popup>
-                <b>{h.tags?.name || "Hospital"}</b>
-              </Popup>
-            </Marker>
-          );
-        })}
+  return (
+    <Marker
+      key={i}
+      position={[lat, lng]}
+      icon={hospitalIcon}
+      eventHandlers={{
+        click: () => getRoute(lat, lng),
+      }}
+    >
+      <Popup>
+        <b>{h.display_name?.split(",")[0] || "Hospital"}</b>
+      </Popup>
+    </Marker>
+  );
+})}
 
        {route.length > 0 && (
       <Polyline
