@@ -43,7 +43,7 @@ function LoginPage({setAuth}) {
           <Spinner animation="border" variant="primary" style={{ width: '3rem', height: '3rem' }} />
         </div>
       )}
-      <div className="auth-page-wrapper" style={{ filter: loading ? 'blur(4px)' : 'none', transition: 'filter 0.6s ease', pointerEvents: loading ? 'none' : 'auto' }}>
+      <div className="auth-page-wrapper" style={{ filter: loading ? 'blur(4px)' : 'none',  pointerEvents: loading ? 'none' : 'auto' }}>
       <Container>
         <Row className="justify-content-center">
           <Col md={10} lg={8}>
