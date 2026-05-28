@@ -13,7 +13,8 @@ function LoginPage({setAuth}) {
   //   localStorage.removeItem("token");
   // },[]);
 
-  let handleLogin=()=>{
+  let handleLogin=(e)=>{
+    e.preventDefault();
     if (!gmail || !password) return;
 
     
@@ -39,7 +40,7 @@ function LoginPage({setAuth}) {
                 
                 <Col md={6} className="auth-form-section">
                   <h3 className="text-center mb-4 fw-bold">User Login</h3>
-                  <Form>
+                  <Form onSubmit={handleLogin}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                       <Form.Label>Email address</Form.Label>
                       <Form.Control type="email" placeholder="Enter email" onChange={(e)=>{setGmail(e.target.value)}} />
@@ -52,7 +53,7 @@ function LoginPage({setAuth}) {
                     
                     <div className="d-grid">
                       {/* This button now links to /home to simulate login */}
-                      <Button  variant="primary" type="submit" onClick={handleLogin}>
+                      <Button  variant="primary" type="submit">
                         Login
                       </Button>
                     </div>
