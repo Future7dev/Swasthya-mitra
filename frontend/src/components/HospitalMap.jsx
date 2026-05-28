@@ -74,23 +74,24 @@ function HospitalMap() {
 
     const fetchHospitals = async () => {
       const query = `
-        [out:json];
-        (
-          node["amenity"="hospital"](around:50000,${currentLocation.lat},${currentLocation.lng});
-          way["amenity"="hospital"](around:50000,${currentLocation.lat},${currentLocation.lng});
-        );
-        out center;
+      [out:json][timeout:25];
+      (
+        node["amenity"="hospital"](around:10000,${currentLocation.lat},${currentLocation.lng});
+        way["amenity"="hospital"](around:10000,${currentLocation.lat},${currentLocation.lng});
+      );
+      out center;
       `;
 
       const response = await axios.post(
-    "https://overpass.kumi.systems/api/interpreter",
-    query,
-    {
-      headers: {
-        "Content-Type": "text/plain",
-      },
-    }
-  );
+      "https://overpass.kumi.systems/api/interpreter",
+      query,
+      {
+        headers: {
+          "Content-Type": "text/plain",
+        },
+        timeout: 30000,
+      }
+    );
 
       setHospitals(response.data.elements);
     };
