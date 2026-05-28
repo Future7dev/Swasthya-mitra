@@ -5,3 +5,14 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
 })
+export default defineConfig({
+  server: {
+    proxy: {
+      '/overpass': {
+        target: 'https://overpass-api.de',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/overpass/, '/api/interpreter'),
+      },
+    },
+  },
+});

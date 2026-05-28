@@ -83,24 +83,20 @@ function HospitalMap() {
     `;
 
     // List of fallback servers
-    const servers = [
-  "https://overpass.private.coffee/api/interpreter",  // ✅ CORS-friendly
-  "https://overpass-api.de/api/interpreter",           // ✅ Usually works
-  "https://overpass.openstreetmap.ru/api/interpreter", // ✅ Another mirror
-];
+    
 
-    for (const server of servers) {
+    
       try {
-        const response = await axios.post(server, query, {
-          headers: { "Content-Type": "text/plain" },
-          timeout: 20000,
-        });
+        const response = await axios.post('/overpass', query, {
+        headers: { "Content-Type": "text/plain" },
+        timeout: 20000,
+      });
         setHospitals(response.data.elements);
         return; // ✅ Success, stop trying
       } catch (err) {
         console.warn(`Failed on ${server}:`, err.message);
       }
-    }
+    
 
     alert("Could not load hospitals. All servers timed out.");
   };
