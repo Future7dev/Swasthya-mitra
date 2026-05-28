@@ -84,7 +84,12 @@ function HospitalMap() {
 
       const response = await axios.post(
         "https://overpass-api.de/api/interpreter",
-        query
+        `data=${encodeURIComponent(query)}`,
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
       );
 
       setHospitals(response.data.elements);
